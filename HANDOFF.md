@@ -2,19 +2,20 @@
 **Güncelleme:** 2026-11-22 · **Güncelleyen:** Claude Code
 
 ## Durum (1-2 cümle)
-M1 çekirdek kütüphane yazıldı (dal `feat/m1-core`): hook + taskbar tespiti + SendInput + mutex + config. Bin (`src/main.rs`) hâlâ boş; elle doğrulama `examples/console.rs` ile.
+M1 main'de (PR #1). M2 standalone tray dal `feat/m2-standalone`'da: `src/main.rs` tray + autostart + log; canlı test geçti.
 
 ## Son yapılanlar
 - Repo: https://github.com/kalkanozgur/lowvolume (public)
-- `src/lib.rs` (API, worker), `src/hook.rs` (Win32), `src/config.rs`, `src/wheel.rs`; 10 test
+- M1: `src/lib.rs`, `src/hook.rs`, `src/config.rs`, `src/wheel.rs`
+- M2: `src/main.rs` (tray, menü, HKCU Run, log, WS kırpma); `general.autostart` config'ten çıktı
 
 ## Açık sorun / blokaj
-- Gerçek taskbar scroll testi elle yapılmadı
+- Tray menü öğeleri, explorer yeniden başlatma ve ikincil monitör elle denenmedi
 
 ## Sıradaki adımlar (sırayla)
-1. Elle test: `cargo run --example console` (birincil/ikincil taskbar, taskbar dışı scroll, hızlı scroll)
-2. M2: standalone tray + autostart + log, tag v0.1.0
-3. M3: lowmonitor reposunda ADR + lowmon-tray entegrasyonu (ayrı PR)
+1. M2 PR + merge, tag v0.1.0
+2. M3: lowmonitor reposunda ADR + lowmon-tray entegrasyonu (ayrı PR)
+3. M4: sağlamlaştırma (UAC, Win10, DPI, taskbar konumları)
 
 ## Dokunma
 - (yok)
@@ -30,7 +31,8 @@ M1 çekirdek kütüphane yazıldı (dal `feat/m1-core`): hook + taskbar tespiti 
 ## Kısıtlar / kararlar
 - Rust 1.100.0, edition 2024; `windows-sys` 0.61.2, `serde` 1.0.229, `toml` 1.2.1 (lowmonitor ile aynı)
 - Ses adımı Windows'un sabit %2'si (VK_VOLUME_UP/DOWN)
-- Config `%APPDATA%\LowMonitor\lowvolume.toml`
+- Config `%APPDATA%\LowMonitor\lowvolume.toml`; log `%LOCALAPPDATA%\LowMonitor\lowvolume.log`
+- Autostart: yalnız kayıt defteri `HKCU\...\Run\lowvolume`
 - Tek örnek: named mutex `Local\LowMonitor.Volume`
 - DPI: hook thread'inde `SetThreadDpiAwarenessContext(PMv2)`
 
