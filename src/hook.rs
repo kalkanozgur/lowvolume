@@ -54,8 +54,15 @@ impl Ctx {
         if s.ignore_injected.load(Relaxed) && ms.flags & LLMHF_INJECTED != 0 {
             return false;
         }
-        // SAFETY: saf Win32 sorguları; geçersiz/NULL HWND'de 0 döner.
-        let (root, mut buf) = unsafe { (GetAncestor(WindowFromPoint(ms.pt), GA_ROOT), [0u16; 32]) };
+        // Windows LL hook callback'ini thread'in DPI bağlamıyla değil DPI-unaware çağırır: %100 dışı ölçekli
+        // monitörde (ör. %125 ikincil) fiziksel `pt` için WindowFromPoint NULL döner. Bağlam burada kurulur, geri alınır.
+        // SAFETY: saf Win32 sorguları; geçersiz/NULL HWND'de 0 döner. Eski bağlam NULL ise geri alma zararsız başarısız olur.
+        let (root, mut buf) = unsafe {
+            let old = SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+            let root = GetAncestor(WindowFromPoint(ms.pt), GA_ROOT);
+            SetThreadDpiAwarenessContext(old);
+            (root, [0u16; 32])
+        };
         if root.is_null() {
             return false;
         }
@@ -104,11 +111,9 @@ fn arm_timer(old: usize, shared: &Shared) -> usize {
 
 /// Hook thread gövdesi. Hazır olunca `ready`'ye thread id (veya kurulum hatası) yazar.
 pub(crate) fn run(tx: Sender<i16>, shared: Arc<Shared>, ready: SyncSender<Result<u32, u32>>) {
-    // SAFETY: thread-yerel DPI bağlamı; MSLLHOOKSTRUCT.pt fiziksel koordinat → WindowFromPoint uyumlu.
-    // PeekMessage thread mesaj kuyruğunu oluşturur (PostThreadMessage için).
+    // SAFETY: PeekMessage thread mesaj kuyruğunu oluşturur (PostThreadMessage için). DPI bağlamı `handle`'da.
     let mut msg: MSG = unsafe { std::mem::zeroed() };
     unsafe {
-        SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
         PeekMessageW(&mut msg, null_mut(), 0, 0, PM_NOREMOVE);
     }
     CTX.with(|c| {
