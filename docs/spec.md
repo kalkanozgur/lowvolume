@@ -39,7 +39,7 @@ lowmon-tray (lowmonitor)        : lib'i git bağımlılığıyla süreç içi ba
 - Taskbar değil → `CallNextHookEx`. Taskbar → delta kanala, `LRESULT(1)`.
 - Callback'te yalnız: `WindowFromPoint`, `GetAncestor(GA_ROOT)`, `GetClassNameW`, kanal gönderimi. Panic yok.
 - Zaman aşımı: `LowLevelHooksTimeout` (~300 ms) aşılırsa Windows hook'u sessizce düşürür; tespit API'si yok → `rehook_interval_s` (varsayılan 60) ile periyodik unhook + yeniden kurulum.
-- DPI: süreç PerMonitorV2 (manifest); `pt` fiziksel koordinat, `WindowFromPoint` ile tutarlı. lowmon-tray manifest'i de PMv2 olmalı.
+- DPI: hook thread'i `SetThreadDpiAwarenessContext(PER_MONITOR_AWARE_V2)` çağırır; `pt` fiziksel koordinat, `WindowFromPoint` ile tutarlı. Süreç manifest'ine bağımlı değil (lowmon-tray için ek iş yok).
 
 ### 3.1 Taskbar tespiti
 `GetAncestor(WindowFromPoint(pt), GA_ROOT)` sınıfı ∈ {`Shell_TrayWnd` (primary), `Shell_SecondaryTrayWnd` (secondary)}. Win11 XAML alt penceresi (`DesktopWindowContentBridge`) GA_ROOT ile köke çıkar. Başlat/arama/taşma pencereleri v1'de dahil değil.
