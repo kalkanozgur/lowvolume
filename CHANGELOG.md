@@ -2,6 +2,8 @@
 Format: Keep a Changelog. Sürümleme: CLAUDE.md > Sürümleme.
 
 ## [Unreleased]
+
+## [0.1.0] - 2026-11-22
 ### Eklendi
 - Proje iskeleti
 - Çekirdek kütüphane: taskbar üstünde tekerlek → sistem sesi (Windows flyout), `lowvolume.toml` config, tek örnek mutex
