@@ -1,0 +1,5 @@
+# Sabit sürüm: lokal ve release runner aynı derleyiciyi kullanır (ADR-0014)
+[toolchain]
+channel = "1.100.0"
+components = ["clippy", "rustfmt"]
+targets = ["x86_64-pc-windows-msvc"]

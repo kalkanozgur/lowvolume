@@ -1,0 +1,25 @@
+[package]
+name = "lowvolume"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/kalkanozgur/lowvolume"
+description = "Taskbar mouse-wheel system volume control for Windows (LowMonitor family)"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "lowvolume"
+path = "src/main.rs"
+
+# Sürümler lowmonitor [workspace.dependencies] ile aynı tutulur (lowmon-tray git bağımlılığı olarak çeker).
+# Bağımlılıklar ihtiyaç duyulan milestone'da eklenir (docs/spec.md §9).
+[dependencies]
+
+[profile.release]
+opt-level     = "z"
+lto           = true
+codegen-units = 1
+panic         = "abort"
+strip         = true
