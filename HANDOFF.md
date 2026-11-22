@@ -2,20 +2,23 @@
 **Güncelleme:** 2026-11-22 · **Güncelleyen:** Claude Code
 
 ## Durum (1-2 cümle)
-M1 main'de (PR #1). M2 standalone tray dal `feat/m2-standalone`'da: `src/main.rs` tray + autostart + log; canlı test geçti.
+v0.1.0 yayında (M1 + M2). M3 tamam: lowmonitor `lowmon-tray` lowvolume'u süreç içinde çalıştırıyor (kalkanozgur/lowmonitor PR #82, ADR-0039). Sıradaki iş M4 sağlamlaştırma.
 
 ## Son yapılanlar
-- Repo: https://github.com/kalkanozgur/lowvolume (public)
+- Repo: https://github.com/kalkanozgur/lowvolume (public), tag `v0.1.0`
 - M1: `src/lib.rs`, `src/hook.rs`, `src/config.rs`, `src/wheel.rs`
 - M2: `src/main.rs` (tray, menü, HKCU Run, log, WS kırpma); `general.autostart` config'ten çıktı
+- M3 (lowmonitor): `crates/lowmon-tray/src/volume.rs`, "Ses (taskbar tekerleği) ▸" menüsü; Handle `WM_DESTROY`'da bırakılır
 
 ## Açık sorun / blokaj
-- Tray menü öğeleri, explorer yeniden başlatma ve ikincil monitör elle denenmedi
+- Menü öğeleri (standalone + lowmon tray), explorer yeniden başlatma, ikincil monitör elle denenmedi
+- Standalone kapandıktan sonra lowmon tray yalnız "Ayarı yeniden yükle" ile devralır
+- İlk lowmon canlı testinde tekerlek bir kez tepkisiz kaldı, tekrarlanamadı
 
 ## Sıradaki adımlar (sırayla)
-1. M2 PR + merge, tag v0.1.0
-2. M3: lowmonitor reposunda ADR + lowmon-tray entegrasyonu (ayrı PR)
-3. M4: sağlamlaştırma (UAC, Win10, DPI, taskbar konumları)
+1. Elle test: menü tıklamaları, explorer restart, ikincil monitör
+2. M4: UAC/yükseltilmiş pencere, Win10, DPI, taskbar konumları
+3. Lib API dersi: `Handle` süreç çıkışında TLS'te düşürülmemeli (join abort) — README/lib doc'a not
 
 ## Dokunma
 - (yok)

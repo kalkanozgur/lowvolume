@@ -6,8 +6,9 @@
 ## Sonra
 - [x] M2: standalone tray, config, mutex, autostart
 - [ ] M2 elle test: tray menü öğeleri, explorer yeniden başlatma
-- [ ] v0.1.0 tag
-- [ ] M3: lowmon-tray entegrasyonu (lowmonitor reposunda ADR + PR)
+- [x] v0.1.0 tag
+- [x] M3: lowmon-tray entegrasyonu (lowmonitor ADR-0039, PR #82)
+- [ ] M3 elle test: lowmon tray "Ses ▸" menüsü
 - [ ] M4: sağlamlaştırma (explorer restart, UAC, Win10/11, DPI, ikincil monitör)
 ## Fikirler
 - Orta tık = mute
