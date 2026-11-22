@@ -2,7 +2,7 @@
 **Güncelleme:** 2026-11-22 · **Güncelleyen:** Claude Code
 
 ## Durum (1-2 cümle)
-v0.1.0 yayında (M1 + M2). M3 tamam: lowmonitor `lowmon-tray` lowvolume'u süreç içinde çalıştırıyor (kalkanozgur/lowmonitor PR #82, ADR-0039). Sıradaki iş M4 sağlamlaştırma.
+v0.1.0 yayında (M1 + M2). M3 tamam ve LowMonitor v1.2.0 ile yayında (kalkanozgur/lowmonitor PR #82, #83, ADR-0039); kullanıcı fiziksel tekerlek + "Ses ▸" menüsünü doğruladı. Sıradaki iş M4 sağlamlaştırma.
 
 ## Son yapılanlar
 - Repo: https://github.com/kalkanozgur/lowvolume (public), tag `v0.1.0`
@@ -11,12 +11,12 @@ v0.1.0 yayında (M1 + M2). M3 tamam: lowmonitor `lowmon-tray` lowvolume'u süre�
 - M3 (lowmonitor): `crates/lowmon-tray/src/volume.rs`, "Ses (taskbar tekerleği) ▸" menüsü; Handle `WM_DESTROY`'da bırakılır
 
 ## Açık sorun / blokaj
-- Menü öğeleri (standalone + lowmon tray), explorer yeniden başlatma, ikincil monitör elle denenmedi
+- Standalone menü öğeleri, explorer yeniden başlatma, ikincil monitör elle denenmedi
 - Standalone kapandıktan sonra lowmon tray yalnız "Ayarı yeniden yükle" ile devralır
 - İlk lowmon canlı testinde tekerlek bir kez tepkisiz kaldı, tekrarlanamadı
 
 ## Sıradaki adımlar (sırayla)
-1. Elle test: menü tıklamaları, explorer restart, ikincil monitör
+1. Elle test: standalone menü, explorer restart, ikincil monitör
 2. M4: UAC/yükseltilmiş pencere, Win10, DPI, taskbar konumları
 3. Lib API dersi: `Handle` süreç çıkışında TLS'te düşürülmemeli (join abort) — README/lib doc'a not
 
