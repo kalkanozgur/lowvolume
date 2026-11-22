@@ -29,7 +29,11 @@ lowvolume/
 ```
 cargo build --release
 ```
-Çıktı: `target/release/lowvolume.exe` (M2'de tamamlanacak).
+`target/release/lowvolume.exe`'yi çalıştır: tray'de hoparlör ikonu çıkar; taskbar üstünde tekerlekle ses değişir. İkona sağ tık: Etkin / Config'i aç / Config'i yeniden yükle / Başlangıçta çalıştır / Çıkış.
+
+- Config: `%APPDATA%\LowMonitor\lowvolume.toml` ("Config'i aç" varsayılanlarla oluşturur)
+- Log: `%LOCALAPPDATA%\LowMonitor\lowvolume.log`
+- LowMonitor tray'i lowvolume'u zaten çalıştırıyorsa standalone exe sessizce çıkar.
 
 ## Yapay zeka ajanı devri
 Son durum ve sıradaki adımlar `HANDOFF.md`'de. Kurallar `CLAUDE.md`'de.

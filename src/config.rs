@@ -16,8 +16,6 @@ pub struct Config {
 #[serde(default)]
 pub struct General {
     pub enabled: bool,
-    /// Yalnız standalone (HKCU Run); lowmon-tray içinde yok sayılır.
-    pub autostart: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Deserialize)]
@@ -43,10 +41,7 @@ pub struct Advanced {
 
 impl Default for General {
     fn default() -> Self {
-        Self {
-            enabled: true,
-            autostart: false,
-        }
+        Self { enabled: true }
     }
 }
 impl Default for Volume {

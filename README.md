@@ -29,7 +29,11 @@ lowvolume/
 ```
 cargo build --release
 ```
-Output: `target/release/lowvolume.exe` (to be completed in M2).
+Run `target/release/lowvolume.exe`: a speaker icon appears in the tray; scroll over the taskbar to change volume. Right-click the icon for Enabled / Open config / Reload config / Run at startup / Exit.
+
+- Config: `%APPDATA%\LowMonitor\lowvolume.toml` (created with defaults by "Open config")
+- Log: `%LOCALAPPDATA%\LowMonitor\lowvolume.log`
+- If the LowMonitor tray already runs lowvolume, the standalone exe exits silently.
 
 ## AI agent handoff
 See `HANDOFF.md` for current state and next steps. Rules live in `CLAUDE.md`.

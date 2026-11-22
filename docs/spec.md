@@ -53,12 +53,17 @@ lowmon-tray (lowmonitor)        : lib'i git bağımlılığıyla süreç içi ba
 ## 5. Tray (yalnız standalone)
 - `Shell_NotifyIconW` + gizli mesaj penceresi; `TaskbarCreated` → ikonu geri ekle.
 - Menü: Etkin (✓) · Config'i aç · Config'i yeniden yükle · Başlangıçta çalıştır (✓, HKCU Run) · Çıkış. Çift tık: etkin/devre dışı.
+- İkon: `SndVol.exe`'nin küçük ikonu (asset/kaynak derleyici yok); yoksa `IDI_APPLICATION`. Tooltip devre dışı durumu gösterir.
+- "Etkin" yalnız çalışma anında; kalıcı hâl config'teki `enabled`. "Yeniden yükle" config'i baştan uygular.
+- Autostart'ın tek kaynağı kayıt defteri (`HKCU\...\Run\lowvolume`); config'te alan yok.
+- "Config'i aç": dosya yoksa yorumlu varsayılan şablon yazılır; `.toml` ilişkisi yoksa Notepad.
+- Log: `%LOCALAPPDATA%\LowMonitor\lowvolume.log`, tek satır/olay, 64 KB'ı aşınca baştan.
+- Başlangıç sonrası `SetProcessWorkingSetSize(-1,-1)` ile çalışma kümesi kırpılır.
 
 ## 6. Config — `%APPDATA%\LowMonitor\lowvolume.toml`
 ```toml
 [general]
 enabled = true
-autostart = false        # yalnız standalone
 [volume]
 invert = false
 ignore_injected = true
@@ -85,7 +90,7 @@ Eksik alan → varsayılan; bozuk dosya → tümü varsayılan + log. Yeniden y�
 
 ## 9. Yol haritası
 1. **M1 çekirdek:** lib, hook, taskbar tespiti, SendInput, mutex; delta/config testleri.
-2. **M2 standalone:** tray, config, autostart, manifest; tag v0.1.0.
+2. **M2 standalone:** tray, config, autostart, log; tag v0.1.0.
 3. **M3 lowmon entegrasyonu:** lowmonitor ADR + lowmon-tray PR.
 4. **M4 sağlamlaştırma:** explorer restart, UAC, Win10/11, DPI, ikincil monitör, otomatik gizle, taskbar konumu.
 
